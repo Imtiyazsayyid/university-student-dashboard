@@ -26,6 +26,10 @@ import { FiHome, FiTrendingUp, FiCompass, FiStar, FiSettings, FiMenu, FiBell, Fi
 import { IconType } from "react-icons";
 import ColorModeSwitch from "./components/ColorModeSwitch";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Student } from "./interfaces/StudentInterface";
+import StudentServices from "./Services/StudentServices";
+import { TokenService } from "./Services/StorageService";
 
 interface LinkItemProps {
   name: string;
@@ -144,6 +148,25 @@ const NavItem = ({ link, children, ...rest }: NavItemProps) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const [studentDetails, setStudentDetails] = useState<Student>();
+
+  const getStudentDetails = async () => {
+    const res = await StudentServices.getStudentDetails();
+    if (res.data.status) {
+      setStudentDetails(res.data.data);
+    }
+  };
+
+  useEffect(() => {
+    getStudentDetails();
+  }, []);
+
+  const router = useRouter();
+
+  const signOut = () => {
+    TokenService.removeAccessToken();
+    router.push("/auth/login");
+  };
   return (
     <Flex
       ml={{ base: 0, md: 80 }}
@@ -184,9 +207,11 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   }
                 />
                 <VStack display={{ base: "none", md: "flex" }} alignItems="flex-start" spacing="1px" ml="2">
-                  <Text fontSize="sm">Justina Clark</Text>
+                  <Text fontSize="sm">
+                    {studentDetails?.firstName} {studentDetails?.lastName}
+                  </Text>
                   <Text fontSize="xs" color="gray.600">
-                    Admin
+                    Student
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
@@ -202,7 +227,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={signOut}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

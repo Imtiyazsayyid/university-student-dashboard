@@ -1,17 +1,18 @@
 import Api from "./Api";
 
 export default {
-  // async getAllStudentDocuments(params) {
-  //   return await Api().get("/student-documents", { params });
-  // },
-  // async getSingleStudentDocument(id) {
-  //   return await Api().get("/student-document/" + id);
-  // },
-  // async saveStudentDocument(payload) {
-  //   console.log("here");
-  //   return await Api().post("/student-document", payload);
-  // },
-  // async deleteStudentDocument(id) {
-  //   return await Api().delete("/student-document/" + id);
-  // },
+  async login(payload) {
+    return await Api().post("auth/login", payload);
+  },
+
+  async getAccessToken(refreshToken) {
+    return await Api().post(`auth/access-token`, {
+      refreshToken,
+    });
+  },
+
+  // Student
+  async getStudentDetails() {
+    return await Api().get("/details");
+  },
 };
