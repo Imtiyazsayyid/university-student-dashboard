@@ -31,3 +31,34 @@ body {
     text-wrap: balance;
   }
 } */
+
+/* React Preview Style Overrides */
+
+.gOvvwi {
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+
+.hDmeqZ {
+  display: none !important;
+}
+
+.dZfayf {
+  background-color: transparent !important;
+}
+
+.hdQTWD {
+  display: none !important;
+}
+
+.jRIYA-d {
+  margin: 0 !important;
+}
+
+.kiIQVn {
+  min-height: 18rem !important;
+}
+
+div.react-pdf__Page {
+  ---scale-factor: 0.3232522403492647;
+}

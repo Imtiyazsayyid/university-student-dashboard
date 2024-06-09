@@ -30,6 +30,7 @@ import { useEffect, useState } from "react";
 import { Student } from "./interfaces/StudentInterface";
 import StudentServices from "./Services/StudentServices";
 import { TokenService } from "./Services/StorageService";
+import { IoLibrary } from "react-icons/io5";
 
 interface LinkItemProps {
   name: string;
@@ -51,7 +52,10 @@ interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
 
-const LinkItems: Array<LinkItemProps> = [{ name: "Home", icon: FiHome, route: "/student", key: "admin" }];
+const LinkItems: Array<LinkItemProps> = [
+  { name: "Home", icon: FiHome, route: "/student", key: "admin" },
+  { name: "Subjects", icon: IoLibrary, route: "/student/subjects", key: "subjects" },
+];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
@@ -60,21 +64,21 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: 80 }}
+      w={{ base: "full", xl: 96 }}
       pos="fixed"
       h="full"
-      pt={{ base: 0, md: 10 }}
+      pt={{ base: 0, xl: 10 }}
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontWeight="bold">
           VSIT Student
         </Text>
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
+        <CloseButton display={{ base: "flex", xl: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} link={link}>
-          {link.name}
+        <NavItem key={link.name} link={link} mb={"2"}>
+          <Text>{link.name}</Text>
         </NavItem>
       ))}
     </Box>
@@ -105,8 +109,8 @@ const NavItem = ({ link, children, ...rest }: NavItemProps) => {
   let options = {};
   if (isCurrentPath(link)) {
     options = {
-      bg: "red.700",
-      color: "white",
+      bg: useColorModeValue("gray.100", "gray.700"),
+      // color: "white",
     };
   }
 
@@ -118,15 +122,15 @@ const NavItem = ({ link, children, ...rest }: NavItemProps) => {
       _focus={{ boxShadow: "none" }}
     >
       <Flex
-        align="center"
+        alignItems="center"
         p="4"
         mx="4"
-        borderRadius="lg"
+        borderRadius="xl"
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "red.700",
-          color: "white",
+          bg: useColorModeValue("gray.100", "gray.700"),
+          // color: "white",
         }}
         {...options}
         {...rest}
@@ -134,10 +138,12 @@ const NavItem = ({ link, children, ...rest }: NavItemProps) => {
         {link.icon && (
           <Icon
             mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: "white",
-            }}
+            fontSize="20"
+            _groupHover={
+              {
+                // color: "white",
+              }
+            }
             as={link.icon}
           />
         )}
@@ -169,30 +175,30 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   };
   return (
     <Flex
-      ml={{ base: 0, md: 80 }}
-      px={{ base: 4, md: 4 }}
+      ml={{ base: 0, xl: 96 }}
+      px={{ base: 4, xl: 4 }}
       height="20"
       alignItems="center"
       bg={useColorModeValue("white", "gray.900")}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
-      justifyContent={{ base: "space-between", md: "flex-end" }}
+      justifyContent={{ base: "space-between", xl: "flex-end" }}
       {...rest}
     >
       <IconButton
-        display={{ base: "flex", md: "none" }}
+        display={{ base: "flex", xl: "none" }}
         onClick={onOpen}
         variant="outline"
         aria-label="open menu"
         icon={<FiMenu />}
       />
 
-      <Text display={{ base: "flex", md: "none" }} fontSize="2xl" fontWeight="bold">
+      <Text display={{ base: "flex", xl: "none" }} fontSize="2xl" fontWeight="bold">
         VSIT Student
       </Text>
 
-      <HStack spacing={{ base: "0", md: "1" }}>
-        <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell />} />
+      <HStack spacing={{ base: "0", xl: "1" }}>
+        <IconButton size="xl" variant="ghost" aria-label="open menu" icon={<FiBell />} className="mr-4" />
         <div className="mr-3">
           <ColorModeSwitch />
         </div>
@@ -203,10 +209,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                 <Avatar
                   size={"sm"}
                   src={
-                    "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                    "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=96&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a96ffc9636ba24f7a4a9"
                   }
                 />
-                <VStack display={{ base: "none", md: "flex" }} alignItems="flex-start" spacing="1px" ml="2">
+                <VStack display={{ base: "none", xl: "flex" }} alignItems="flex-start" spacing="1px" ml="2">
                   <Text fontSize="sm">
                     {studentDetails?.firstName} {studentDetails?.lastName}
                   </Text>
@@ -214,7 +220,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                     Student
                   </Text>
                 </VStack>
-                <Box display={{ base: "none", md: "flex" }}>
+                <Box display={{ base: "none", xl: "flex" }}>
                   <FiChevronDown />
                 </Box>
               </HStack>
@@ -241,7 +247,7 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
-      <SidebarContent onClose={() => onClose} display={{ base: "none", md: "block" }} />
+      <SidebarContent onClose={() => onClose} display={{ base: "none", xl: "block" }} />
       <Drawer
         isOpen={isOpen}
         placement="left"
@@ -256,7 +262,7 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 80 }} p="4">
+      <Box ml={{ base: 0, xl: 96 }} p="4">
         {children}
       </Box>
     </Box>

@@ -18,7 +18,7 @@ const LoginPage = () => {
   const [userDetails, setUserDetails] = useState({
     email: "",
     password: "",
-    user_role: "admin",
+    user_role: "student",
   });
 
   const [errors, setErrors] = useState({

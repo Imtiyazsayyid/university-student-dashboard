@@ -1,3 +1,5 @@
+import { UnitMaterial } from "./UnitMaterialInterface";
+
 export type Unit = {
   id: number;
   number: number;
@@ -7,4 +9,6 @@ export type Unit = {
   status: boolean;
   created_at: Date;
   updated_at: Date;
+
+  unitMaterial: UnitMaterial[];
 };

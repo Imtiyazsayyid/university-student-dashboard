@@ -1,4 +1,6 @@
+import { DivisionSubjectTeacher } from "./DivisionSubejctTeacherInterface";
 import { SubjectType } from "./SubjectTypeInterface";
+import { Unit } from "./UnitInterface";
 
 export type Subject = {
   id: number;
@@ -12,4 +14,7 @@ export type Subject = {
   status: boolean;
   created_at: Date;
   updated_at: Date;
+
+  units: Unit[];
+  divisionTeachers: DivisionSubjectTeacher[];
 };
