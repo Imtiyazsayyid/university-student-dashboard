@@ -51,6 +51,7 @@ const ResponseHistoryModal = ({ quizId, isOpen, setOpen, showResults }: Props) =
   });
 
   const onClose = () => {
+    setCurrentResponseIndex(0);
     setOpen(false);
   };
 
