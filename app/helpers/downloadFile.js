@@ -21,9 +21,10 @@ const downloadFile = async (url, filename) => {
 
     if (res.data) {
       fileDownload(res.data, filename + type);
+      return true;
     }
 
-    return true;
+    return false;
   } catch (error) {
     return false;
   }

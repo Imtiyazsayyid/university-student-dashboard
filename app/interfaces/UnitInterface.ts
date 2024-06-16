@@ -1,4 +1,5 @@
 import { UnitMaterial } from "./UnitMaterialInterface";
+import { UnitQuiz } from "./UnitQuizInterface";
 
 export type Unit = {
   id: number;
@@ -11,4 +12,5 @@ export type Unit = {
   updated_at: Date;
 
   unitMaterial: UnitMaterial[];
+  unitQuizes: UnitQuiz[];
 };

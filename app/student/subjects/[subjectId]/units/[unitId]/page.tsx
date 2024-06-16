@@ -81,6 +81,7 @@ const SingleUnitPage = ({ params }: Props) => {
     });
 
     const isDownloaded = await downloadFile(currentMaterial.link, currentMaterial.name);
+
     toast.close(loadingToast);
 
     if (!isDownloaded)

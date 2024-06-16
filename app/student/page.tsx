@@ -108,11 +108,12 @@ const StudentHomePage = () => {
                         <Card
                           rounded={"lg"}
                           shadow={"md"}
+                          className="h-full"
                           bg={useColorModeValue("white", "gray.700")}
                           cursor={"pointer"}
                           onClick={() => router.push(`/student/subjects/${sub.id}`)}
                         >
-                          <CardBody>
+                          <CardBody display={"flex"} alignItems={"center"}>
                             <Heading size={"1"}>{sub.name}</Heading>
                           </CardBody>
                         </Card>
