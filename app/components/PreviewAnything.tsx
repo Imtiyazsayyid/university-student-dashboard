@@ -29,32 +29,32 @@ const PreviewAnything = ({ link }: Props) => {
       if (link.startsWith("https://www.youtube.com/")) {
         setLinkType("embed");
         setFormattedLink(convertToEmbeddableLink(link));
-      } else if (link.endsWith(".pdf")) {
+      } else if (link.includes(".pdf")) {
         setLinkType("pdf");
       } else if (
-        link.endsWith(".xlsx") ||
-        link.endsWith(".xls") || // Excel files
-        link.endsWith(".docx") ||
-        link.endsWith(".doc") || // Word files
-        link.endsWith(".pptx") ||
-        link.endsWith(".ppt") || // PowerPoint files
-        link.endsWith(".xlsm") ||
-        link.endsWith(".xltx") || // Excel macro-enabled/template files
-        link.endsWith(".docm") ||
-        link.endsWith(".dotx") || // Word macro-enabled/template files
-        link.endsWith(".pptm") ||
-        link.endsWith(".potx") // PowerPoint macro-enabled/template files
+        link.includes(".xlsx") ||
+        link.includes(".xls") || // Excel files
+        link.includes(".docx") ||
+        link.includes(".doc") || // Word files
+        link.includes(".pptx") ||
+        link.includes(".ppt") || // PowerPoint files
+        link.includes(".xlsm") ||
+        link.includes(".xltx") || // Excel macro-enabled/template files
+        link.includes(".docm") ||
+        link.includes(".dotx") || // Word macro-enabled/template files
+        link.includes(".pptm") ||
+        link.includes(".potx") // PowerPoint macro-enabled/template files
       ) {
         setLinkType("msoffice");
       } else if (
-        link.endsWith(".jpg") ||
-        link.endsWith(".jpeg") ||
-        link.endsWith(".png") ||
-        link.endsWith(".gif") ||
-        link.endsWith(".bmp") ||
-        link.endsWith(".svg") ||
-        link.endsWith(".webp") ||
-        link.endsWith(".tiff")
+        link.includes(".jpg") ||
+        link.includes(".jpeg") ||
+        link.includes(".png") ||
+        link.includes(".gif") ||
+        link.includes(".bmp") ||
+        link.includes(".svg") ||
+        link.includes(".webp") ||
+        link.includes(".tiff")
       ) {
         setLinkType("img");
       } else {
