@@ -45,4 +45,17 @@ export default {
   async getAllQuizResponses(params) {
     return await Api().get("/unit-quiz-responses", { params });
   },
+
+  // Get All Assignments
+  async getAllAssignments(params) {
+    return await Api().get("/assignments", { params });
+  },
+
+  async getSingleAssignment(id) {
+    return await Api().get("/assignment/" + id);
+  },
+
+  async submitAssignment(payload) {
+    return await Api().post("/assignment", payload);
+  },
 };

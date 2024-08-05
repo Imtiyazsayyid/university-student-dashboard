@@ -31,6 +31,7 @@ import { Student } from "./interfaces/StudentInterface";
 import StudentServices from "./Services/StudentServices";
 import { TokenService } from "./Services/StorageService";
 import { IoLibrary } from "react-icons/io5";
+import { MdAssignment } from "react-icons/md";
 
 interface LinkItemProps {
   name: string;
@@ -55,6 +56,7 @@ interface SidebarProps extends BoxProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, route: "/student", key: "admin" },
   { name: "Subjects", icon: IoLibrary, route: "/student/subjects", key: "subjects" },
+  { name: "Assignments", icon: MdAssignment, route: "/student/assignments", key: "assignments" },
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
