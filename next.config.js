@@ -3,7 +3,7 @@ const nextConfig = {
   env: {
     BASE_URL:
       process.env.NODE_ENV === "production"
-        ? "https://regift-backend.vercel.app/api/student"
+        ? "https://university-backend-gold.vercel.app/api/student"
         : "http://localhost:8003/api/student",
   },
   webpack: (config) => {
