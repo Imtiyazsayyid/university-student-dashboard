@@ -1,6 +1,6 @@
 import Api from "./Api";
 
-export default {
+const StudentServices = {
   async login(payload) {
     return await Api().post("auth/login", payload);
   },
@@ -59,3 +59,5 @@ export default {
     return await Api().post("/assignment", payload);
   },
 };
+
+export default StudentServices;

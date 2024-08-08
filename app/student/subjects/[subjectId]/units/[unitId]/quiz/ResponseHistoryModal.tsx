@@ -40,8 +40,6 @@ interface QuizResponse {
 }
 
 const ResponseHistoryModal = ({ quizId, isOpen, setOpen, showResults }: Props) => {
-  if (!quizId) return;
-
   const [quizResponses, setQuizResponses] = useState<QuizResponse[]>([]);
   const [currentResponseIndex, setCurrentResponseIndex] = useState(0);
   const [quizDetails, setQuizDetails] = useState<UnitQuiz>();
@@ -127,10 +125,14 @@ const ResponseHistoryModal = ({ quizId, isOpen, setOpen, showResults }: Props) =
     }
   }, [quizDetails, quizResponses, currentResponseIndex]);
 
+  const colorGray100Gray800 = useColorModeValue("gray.100", "gray.800");
+
+  if (!quizId) return;
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"md"} isCentered scrollBehavior={"inside"}>
       <ModalOverlay />
-      <ModalContent bg={useColorModeValue("gray.100", "gray.800")} className={`md:min-w-[600px] lg:min-w-[900px]`}>
+      <ModalContent bg={colorGray100Gray800} className={`md:min-w-[600px] lg:min-w-[900px]`}>
         <ModalHeader>{quizDetails?.name}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -157,12 +159,12 @@ const ResponseHistoryModal = ({ quizId, isOpen, setOpen, showResults }: Props) =
                 </CardBody>
               </Card>
               {quizDetails?.questions.map((q) => (
-                <Card>
+                <Card key={q.id}>
                   <CardBody>
                     <Heading size={"md"}>{q.question}</Heading>
                     <Grid py={3} gap={3} gridTemplateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}>
                       {q.options.map((o) => (
-                        <GridItem className="border overflow-hidden rounded-xl max-w-full">
+                        <GridItem className="border overflow-hidden rounded-xl max-w-full" key={o.id}>
                           <Flex
                             className="py-8"
                             alignItems={"center"}

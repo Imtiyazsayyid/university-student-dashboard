@@ -60,11 +60,14 @@ const StudentHomePage = () => {
     getStudent();
   }, []);
 
+  const colorWhiteGray700 = useColorModeValue("white", "gray.700");
+  const colorGray100Gray800 = useColorModeValue("gray.100", "gray.800");
+
   if (!batch || !student) return null;
 
   return (
     <Flex direction={"column"} gap={"3"}>
-      <Box p={{ base: "4", md: "8" }} rounded="xl" bg={useColorModeValue("white", "gray.700")}>
+      <Box p={{ base: "4", md: "8" }} rounded="xl" bg={colorWhiteGray700}>
         <Flex direction={"column"} p={10} gap={5} justifyContent={"center"} alignItems={"center"}>
           <Heading textAlign={"center"} size={{ base: "xl", md: "2xl" }}>
             Welcome {student?.firstName} {student?.lastName}
@@ -86,30 +89,33 @@ const StudentHomePage = () => {
               mx={"1"}
             >
               {batch.accessibleSemesters.map((s) => (
-                <Tab minWidth={"fit-content"}>Semester {s.semester.semNumber}</Tab>
+                <Tab minWidth={"fit-content"} key={s.id}>
+                  Semester {s.semester.semNumber}
+                </Tab>
               ))}
             </TabList>
             <TabPanels>
               {batch.accessibleSemesters.map((s) => (
                 <TabPanel
-                  bg={useColorModeValue("gray.100", "gray.800")}
+                  bg={colorGray100Gray800}
                   rounded={"xl"}
                   maxHeight={400}
                   mt={"2"}
                   overflowY={"auto"}
                   p={{ base: 2, md: 3 }}
+                  key={s.id}
                 >
                   <Grid
                     gridTemplateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
                     gap={"2"}
                   >
                     {s.semester.subjects.map((sub) => (
-                      <GridItem>
+                      <GridItem key={sub.id}>
                         <Card
                           rounded={"lg"}
                           shadow={"md"}
                           className="h-full"
-                          bg={useColorModeValue("white", "gray.700")}
+                          bg={colorWhiteGray700}
                           cursor={"pointer"}
                           onClick={() => router.push(`/student/subjects/${sub.id}`)}
                         >

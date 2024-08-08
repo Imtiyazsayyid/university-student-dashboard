@@ -140,8 +140,13 @@ const AssignmentPage = ({ params }: Props) => {
       setLoading(false);
     } catch (error) {
       console.error("Submit Assignment", error);
+      ``;
     }
   };
+
+  const whiteGray700 = useColorModeValue("white", "gray.700");
+  const gray500Gray400 = useColorModeValue("gray.500", "gray.400");
+  const gray100gray800 = useColorModeValue("gray.100", "gray.800");
 
   if (!assignment) return null;
 
@@ -149,7 +154,7 @@ const AssignmentPage = ({ params }: Props) => {
     <Flex direction={"column"} gap={"2"}>
       <Flex
         className="p-8 w-full rounded-xl h-full"
-        bg={useColorModeValue("white", "gray.700")}
+        bg={whiteGray700}
         justify={"space-between"}
         align={"start"}
         gap={3}
@@ -157,7 +162,7 @@ const AssignmentPage = ({ params }: Props) => {
       >
         <Flex direction={"column"} alignItems={{ base: "center", md: "start" }} className="w-full h-full">
           <Heading mb={3}>{assignment.name}</Heading>
-          <Text mb={6} color={useColorModeValue("gray.500", "gray.400")} className="w-full lg:w-2/3">
+          <Text mb={6} color={gray500Gray400} className="w-full lg:w-2/3">
             {assignment.description}
           </Text>
 
@@ -196,11 +201,7 @@ const AssignmentPage = ({ params }: Props) => {
       </Flex>
 
       {assignment.material.length > 0 && (
-        <Flex
-          className="p-8 w-full rounded-xl overflow-hidden overflow-y-auto"
-          direction={"column"}
-          bg={useColorModeValue("white", "gray.700")}
-        >
+        <Flex className="p-8 w-full rounded-xl overflow-hidden overflow-y-auto" direction={"column"} bg={whiteGray700}>
           <Flex justifyContent={"space-between"} alignItems={"start"}>
             <Flex direction={"column"} className="w-full">
               <Flex alignItems={"center"} justifyContent={"space-between"} className="w-full">
@@ -218,13 +219,9 @@ const AssignmentPage = ({ params }: Props) => {
                 </MyButton>
               </Flex>
               {showProvidedMaterial && (
-                <Flex
-                  className="border w-full h-96 rounded-xl overflow-x-auto p-5 mt-5"
-                  gap={"5"}
-                  bg={useColorModeValue("gray.100", "gray.800")}
-                >
+                <Flex className="border w-full h-96 rounded-xl overflow-x-auto p-5 mt-5" gap={"5"} bg={gray100gray800}>
                   {assignment.material.map((m) => (
-                    <div className="min-w-fit relative">
+                    <div className="min-w-fit relative" key={m.id}>
                       <MiniPreviewAnything link={m.material_url} extraClassName="min-w-fit max-h-[21.5rem]" />
                       <a
                         className="h-10 w-10 bg-violet-300 rounded-full absolute top-5 right-5 cursor-pointer"
@@ -245,11 +242,7 @@ const AssignmentPage = ({ params }: Props) => {
       )}
 
       {!pastDueDate && (
-        <Flex
-          className="p-8 w-full rounded-xl overflow-hidden overflow-y-auto"
-          direction={"column"}
-          bg={useColorModeValue("white", "gray.700")}
-        >
+        <Flex className="p-8 w-full rounded-xl overflow-hidden overflow-y-auto" direction={"column"} bg={whiteGray700}>
           <Flex justifyContent={"space-between"} alignItems={"start"}>
             <Flex direction={"column"} className="w-full">
               <Flex alignItems={"center"} justifyContent={"space-between"} className="w-full">
@@ -277,13 +270,9 @@ const AssignmentPage = ({ params }: Props) => {
                 </Flex>
               </Flex>
               {showUploadedMaterial && assignmentUploads.length > 0 && (
-                <Flex
-                  className="border w-full h-96 rounded-xl overflow-x-auto p-5 mt-5"
-                  gap={"5"}
-                  bg={useColorModeValue("gray.100", "gray.800")}
-                >
+                <Flex className="border w-full h-96 rounded-xl overflow-x-auto p-5 mt-5" gap={"5"} bg={gray100gray800}>
                   {assignmentUploads.map((u, index) => (
-                    <div className="min-w-fit relative">
+                    <div className="min-w-fit relative" key={u}>
                       <MiniPreviewAnything link={u} extraClassName="min-w-fit max-h-[21.5rem]" />
 
                       <div
@@ -320,7 +309,7 @@ const AssignmentPage = ({ params }: Props) => {
         <Flex
           className="p-8 w-full min-h-screen rounded-xl overflow-hidden overflow-y-auto"
           direction={"column"}
-          bg={useColorModeValue("white", "gray.700")}
+          bg={whiteGray700}
         >
           <Flex justifyContent={"space-between"} alignItems={"start"}>
             <Flex direction={"column"}>
@@ -330,7 +319,7 @@ const AssignmentPage = ({ params }: Props) => {
           </Flex>
 
           {assignmentAnswers.map((a) => (
-            <>
+            <div key={a.questionId}>
               <Flex direction={"column"} className="min-h-fit w-full mb-20">
                 <Heading fontSize={15} mb={4}>
                   {assignment.questions.find((q) => q.id === a.questionId)?.question}
@@ -342,7 +331,7 @@ const AssignmentPage = ({ params }: Props) => {
                 />
               </Flex>
               <Divider className="my-10 lg:mb-16" />
-            </>
+            </div>
           ))}
         </Flex>
       )}

@@ -99,6 +99,10 @@ const SingleUnitPage = ({ params }: Props) => {
     getSingleUnit();
   }, []);
 
+  const colorWhiteGray700 = useColorModeValue("white", "gray.700");
+  const colorGray100Gray800 = useColorModeValue("gray.100", "gray.800");
+  const colorBlackWhite = useColorModeValue("black", "white");
+
   if (!unit) return;
 
   return (
@@ -164,7 +168,7 @@ const SingleUnitPage = ({ params }: Props) => {
         Unit Materials
       </Heading>
       <Grid
-        bg={useColorModeValue("gray.100", "gray.800")}
+        bg={colorGray100Gray800}
         width={"full"}
         padding={2}
         rounded={"lg"}
@@ -172,16 +176,12 @@ const SingleUnitPage = ({ params }: Props) => {
         gridTemplateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
       >
         {unit.unitMaterial.map((um, index) => (
-          <GridItem>
+          <GridItem key={um.id}>
             <Card
               rounded={"lg"}
               shadow={"md"}
-              bg={
-                currentMaterialNumber === index
-                  ? useColorModeValue("purple.700", "purple.700")
-                  : useColorModeValue("white", "gray.700")
-              }
-              color={currentMaterialNumber === index ? "white" : useColorModeValue("black", "white")}
+              bg={currentMaterialNumber === index ? "purple.700" : colorWhiteGray700}
+              color={currentMaterialNumber === index ? "white" : colorBlackWhite}
               cursor={"pointer"}
               onClick={() => setCurrentMaterialNumber(index)}
             >

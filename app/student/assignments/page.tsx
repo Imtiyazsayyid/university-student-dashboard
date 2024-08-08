@@ -26,6 +26,7 @@ import React, { useEffect, useState } from "react";
 const MyAssignmentsPage = () => {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const router = useRouter();
+  const colorFAFAFAGray900 = useColorModeValue("#fafafa", "gray.900");
 
   const getAllAssignments = async () => {
     try {
@@ -70,7 +71,7 @@ const MyAssignmentsPage = () => {
               <Tr
                 key={a.id}
                 cursor={"pointer"}
-                _hover={{ bg: useColorModeValue("#fafafa", "gray.900") }}
+                _hover={{ bg: colorFAFAFAGray900 }}
                 onClick={() => router.push(`/student/assignments/${a.id}`)}
               >
                 <Td>{index + 1}</Td>

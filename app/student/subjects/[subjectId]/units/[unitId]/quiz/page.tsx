@@ -165,6 +165,8 @@ const UnitQuizesPage = ({ params }: Props) => {
     getSingleUnit();
   }, []);
 
+  const colorGray100Gray800 = useColorModeValue("gray.100", "gray.800");
+
   if (!unit?.unitQuizes || unit?.unitQuizes.length === 0) {
     return (
       <Card>
@@ -214,7 +216,7 @@ const UnitQuizesPage = ({ params }: Props) => {
               {unit?.unitQuizes.map((uq) => (
                 <TabPanel
                   key={uq.id}
-                  bg={useColorModeValue("gray.100", "gray.800")}
+                  bg={colorGray100Gray800}
                   rounded={"xl"}
                   mt={"2"}
                   overflowY={"auto"}

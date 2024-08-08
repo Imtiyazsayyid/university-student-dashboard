@@ -87,31 +87,32 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   );
 };
 
-const isCurrentPath = (item: LinkItemProps) => {
-  const currentPath = usePathname();
-  if (item.route === "/student" && currentPath === "/student") {
-    return true; // Exact match for home
-  } else if (item.route !== "/student") {
-    let items = currentPath.split("/");
-    items.splice(0, 2);
-
-    if (items.includes(item.key)) {
-      return true;
-    }
-
-    return false;
-  } else {
-    return false;
-  }
-};
-
 const NavItem = ({ link, children, ...rest }: NavItemProps) => {
   const router = useRouter();
+  const currentPath = usePathname();
+
+  const isCurrentPath = (item: LinkItemProps) => {
+    if (item.route === "/student" && currentPath === "/student") {
+      return true; // Exact match for home
+    } else if (item.route !== "/student") {
+      let items = currentPath.split("/");
+      items.splice(0, 2);
+
+      if (items.includes(item.key)) {
+        return true;
+      }
+
+      return false;
+    } else {
+      return false;
+    }
+  };
 
   let options = {};
+  const colorMode = useColorModeValue("gray.100", "gray.700");
   if (isCurrentPath(link)) {
     options = {
-      bg: useColorModeValue("gray.100", "gray.700"),
+      bg: colorMode,
       // color: "white",
     };
   }

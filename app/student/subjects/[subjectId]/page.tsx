@@ -61,6 +61,9 @@ const SubjectDetailPage = ({ params }: Props) => {
     getSingleSubject();
   }, []);
 
+  const colorWhiteGray700 = useColorModeValue("white", "gray.700");
+  const colorGray100Gray800 = useColorModeValue("gray.100", "gray.800");
+
   if (!subject) return;
 
   return (
@@ -90,7 +93,7 @@ const SubjectDetailPage = ({ params }: Props) => {
           </Flex>
 
           <Grid
-            bg={useColorModeValue("gray.100", "gray.800")}
+            bg={colorGray100Gray800}
             width={"full"}
             padding={2}
             rounded={"lg"}
@@ -98,14 +101,8 @@ const SubjectDetailPage = ({ params }: Props) => {
             gridTemplateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
           >
             {subject.units.map((u) => (
-              <GridItem>
-                <Card
-                  rounded={"lg"}
-                  className="h-full"
-                  shadow={"md"}
-                  bg={useColorModeValue("white", "gray.700")}
-                  cursor={"pointer"}
-                >
+              <GridItem key={u.id}>
+                <Card rounded={"lg"} className="h-full" shadow={"md"} bg={colorWhiteGray700} cursor={"pointer"}>
                   <CardBody>
                     <Flex justifyContent={"space-between"} alignItems={"center"} className="h-full">
                       <Box>
