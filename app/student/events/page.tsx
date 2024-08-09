@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaPlay, FaRegClock } from "react-icons/fa6";
-import { TbCalendarPlus } from "react-icons/tb";
+import { TbCalendarPlus, TbCalendarX } from "react-icons/tb";
 
 const EventPage = () => {
   const [events, setEvents] = useState<Event[]>([]);
@@ -137,7 +137,25 @@ const EventPage = () => {
     } else {
       const now = moment();
       if (now.isAfter(moment(event.finalRegistrationDate))) {
-        return <Badge className="bg-gray-500 hover:bg-gray-500">Closed</Badge>;
+        return (
+          <Badge
+            colorScheme={"red"}
+            rounded={"full"}
+            pl={4}
+            py={2}
+            pr={4}
+            display={"flex"}
+            alignItems={"center"}
+            className="w-fit"
+            cursor={"pointer"}
+            onClick={(e) => {
+              e.stopPropagation();
+              requestToParticipateInEvent(event.id);
+            }}
+          >
+            <TbCalendarX className="mr-2 h-4 w-4" /> Closed
+          </Badge>
+        );
       } else {
         return (
           <Badge

@@ -5,10 +5,10 @@ import { FaCalendar, FaRegClock } from "react-icons/fa6";
 
 interface Props {
   dueDate: Date;
-  isSubmitted: boolean;
+  isSubmitted?: boolean;
 }
 
-const DueDateBadge = ({ dueDate, isSubmitted }: Props) => {
+const DueDateBadge = ({ dueDate, isSubmitted = false }: Props) => {
   let colorScheme;
   const now = moment();
   const due = moment(dueDate);

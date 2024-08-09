@@ -71,6 +71,10 @@ const StudentServices = {
   async participateInEvent(payload) {
     return await Api().post("/join-event-participants", payload);
   },
+
+  async leaveEvent(eventId) {
+    return await Api().delete(`/leave-event/${eventId}`);
+  },
 };
 
 export default StudentServices;
