@@ -58,6 +58,19 @@ const StudentServices = {
   async submitAssignment(payload) {
     return await Api().post("/assignment", payload);
   },
+
+  // Events
+  async getAllEvents(params) {
+    return await Api().get("/events", { params });
+  },
+
+  async getSingleEvent(id) {
+    return await Api().get("/event/" + id);
+  },
+
+  async participateInEvent(payload) {
+    return await Api().post("/join-event-participants", payload);
+  },
 };
 
 export default StudentServices;

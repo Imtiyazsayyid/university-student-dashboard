@@ -32,6 +32,10 @@ import StudentServices from "./Services/StudentServices";
 import { TokenService } from "./Services/StorageService";
 import { IoLibrary } from "react-icons/io5";
 import { MdAssignment } from "react-icons/md";
+import { LuTicket } from "react-icons/lu";
+import { BsTicketPerforatedFill } from "react-icons/bs";
+import { useAtom, useStore } from "jotai";
+import { setStudentDetails, studentDetails } from "./store/Store";
 
 interface LinkItemProps {
   name: string;
@@ -57,6 +61,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, route: "/student", key: "admin" },
   { name: "Subjects", icon: IoLibrary, route: "/student/subjects", key: "subjects" },
   { name: "Assignments", icon: MdAssignment, route: "/student/assignments", key: "assignments" },
+  { name: "Events", icon: BsTicketPerforatedFill, route: "/student/events", key: "events" },
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
@@ -246,6 +251,13 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
 };
 
 const Navbar = ({ children }: { children: React.ReactNode }) => {
+  const store = useStore();
+  // const [student] = useAtom(studentDetails);
+
+  useEffect(() => {
+    store.set(setStudentDetails);
+  }, []);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
