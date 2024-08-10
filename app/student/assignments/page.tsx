@@ -5,6 +5,7 @@ import DueDateBadge from "@/app/components/DueDateBadge";
 import ProfileCard from "@/app/components/ProfileCard";
 import { Assignment } from "@/app/interfaces/AssignmentInterface";
 import StudentServices from "@/app/Services/StudentServices";
+import MyPagination from "@/app/components/MyPagination";
 import {
   Badge,
   Flex,
@@ -25,15 +26,24 @@ import React, { useEffect, useState } from "react";
 
 const MyAssignmentsPage = () => {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [assignmentsCount, setAssignmentsCount] = useState(0);
+
   const router = useRouter();
   const colorFAFAFAGray900 = useColorModeValue("#fafafa", "gray.900");
+  
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    itemsPerPage: 7,
+  });
 
   const getAllAssignments = async () => {
     try {
-      const res = await StudentServices.getAllAssignments();
+      const res = await StudentServices.getAllAssignments({ ...pagination, });
 
       if (res.data.status) {
         setAssignments(res.data.data.assignments);
+        setAssignmentsCount(res.data.data.assignmentCount);
+
       }
     } catch (error) {
       console.error("Error in Get All Assigments", error);
@@ -42,7 +52,7 @@ const MyAssignmentsPage = () => {
 
   useEffect(() => {
     getAllAssignments();
-  }, []);
+  }, [pagination]);
 
   return (
     <Flex direction={"column"} gap={"2"}>
@@ -91,6 +101,7 @@ const MyAssignmentsPage = () => {
           </Tbody>
         </Table>
       </TableContainer>
+      <MyPagination show={true} itemCount={assignmentsCount} pagination={pagination} setPagination={setPagination} />
     </Flex>
   );
 };
