@@ -1,6 +1,7 @@
 "use client";
 
 import DueDateBadge from "@/app/components/DueDateBadge";
+import MyPagination from "@/app/components/MyPagination";
 import ProfileCard from "@/app/components/ProfileCard";
 import { Event } from "@/app/interfaces/EventInterface";
 import StudentServices from "@/app/Services/StudentServices";
@@ -30,17 +31,26 @@ import { TbCalendarPlus, TbCalendarX } from "react-icons/tb";
 
 const EventPage = () => {
   const [events, setEvents] = useState<Event[]>([]);
+  const [eventCount, setEventCount] = useState<number>(0);
+
   const router = useRouter();
   const colorFAFAFAGray900 = useColorModeValue("#fafafa", "gray.900");
   const [student] = useAtom(studentDetails);
   const toast = useToast();
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    itemsPerPage: 5,
+  });
 
   const getAllEvents = async () => {
     try {
-      const res = await StudentServices.getAllEvents();
+      const res = await StudentServices.getAllEvents({
+        ...pagination,
+      });
 
       if (res.data.status) {
         setEvents(res.data.data.events);
+        setEventCount(res.data.data.eventCount);
       }
     } catch (error) {
       console.error("Error in Get All Assigments", error);
@@ -213,7 +223,7 @@ const EventPage = () => {
 
   useEffect(() => {
     getAllEvents();
-  }, []);
+  }, [pagination]);
 
   return (
     <Flex direction={"column"} gap={"2"}>
@@ -266,6 +276,7 @@ const EventPage = () => {
           </Tbody>
         </Table>
       </TableContainer>
+      <MyPagination show={true} itemCount={eventCount} pagination={pagination} setPagination={setPagination} />
     </Flex>
   );
 };
