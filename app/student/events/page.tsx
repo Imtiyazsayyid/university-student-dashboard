@@ -282,7 +282,7 @@ const EventPage = () => {
       </Flex>
       {showFilters && (
         <Flex className="rounded-xl w-full gap-2 p-2" bg={"gray.700"} direction={{ base: "column", md: "row" }}>
-          <Flex className="w-full lg:w-1/2">
+          <Flex className="w-full lg:w-1/3">
             <InputGroup className="w-full">
               <InputLeftElement pointerEvents="none">
                 <FaSearch color="gray.300" />
@@ -295,11 +295,11 @@ const EventPage = () => {
               />
             </InputGroup>
           </Flex>
-          <Flex className="w-full lg:w-1/4">
+          <Flex className="w-full lg:w-1/3">
             <Select
               value={filters.status as SelectOption | undefined}
               onChange={(val) => setFilters({ ...filters, status: val })}
-              placeholder="Status"
+              placeholder="Event Status"
               className="w-full"
               options={statusFilterOptions as any}
               isClearable
@@ -308,11 +308,11 @@ const EventPage = () => {
               useBasicStyles
             />
           </Flex>
-          <Flex className="w-full lg:w-1/4">
+          <Flex className="w-full lg:w-1/3">
             <Select
               value={filters.registrationStatus as SelectOption | undefined}
               onChange={(val) => setFilters({ ...filters, registrationStatus: val })}
-              placeholder="Status"
+              placeholder="Registration Status"
               className="w-full"
               options={registeredFilterOptions as any}
               isClearable
