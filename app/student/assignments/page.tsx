@@ -29,6 +29,7 @@ import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Select } from "chakra-react-select";
 import { Subject } from "@/app/interfaces/SubjectInterface";
+import { LuFilter, LuFilterX } from "react-icons/lu";
 
 export interface SelectOption {
   label: string;
@@ -39,6 +40,7 @@ const MyAssignmentsPage = () => {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [assignmentsCount, setAssignmentsCount] = useState(0);
   const [accessibleSubjects, setAccessibleSubjects] = useState<Subject[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
 
   const router = useRouter();
   const colorFAFAFAGray900 = useColorModeValue("#fafafa", "gray.900");
@@ -107,7 +109,7 @@ const MyAssignmentsPage = () => {
   }, [pagination, filters]);
 
   return (
-    <Flex direction={"column"} gap={"2"}>
+    <Flex direction={"column"} gap={"2"} className="relative h-[90vh]">
       <Flex
         className="h-fit w-full rounded-xl p-7 gap-4"
         direction={"column"}
@@ -118,48 +120,54 @@ const MyAssignmentsPage = () => {
         <Heading>Your Assignments</Heading>
       </Flex>
 
-      <Flex className="rounded-xl w-full gap-4 p-2" bg={useColorModeValue("white", "gray.700")}>
-        <Flex className="w-1/2">
-          <InputGroup className="w-full">
-            <InputLeftElement pointerEvents="none">
-              <FaSearch color="gray.300" />
-            </InputLeftElement>
-            <Input
-              placeholder="Search"
-              variant="filled"
-              value={filters.search}
-              onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-            />
-          </InputGroup>
-        </Flex>
+      {showFilters && (
+        <Flex
+          className="rounded-xl w-full gap-2 p-2"
+          bg={useColorModeValue("white", "gray.700")}
+          direction={{ base: "column", md: "row" }}
+        >
+          <Flex className="w-full lg:w-1/2">
+            <InputGroup className="w-full">
+              <InputLeftElement pointerEvents="none">
+                <FaSearch color="gray.300" />
+              </InputLeftElement>
+              <Input
+                placeholder="Search"
+                variant="filled"
+                value={filters.search}
+                onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+              />
+            </InputGroup>
+          </Flex>
 
-        <Flex className="w-1/4">
-          <Select
-            value={filters.subjectId as SelectOption | undefined}
-            onChange={(val) => setFilters({ ...filters, subjectId: val })}
-            placeholder="Subject"
-            className="w-full"
-            options={accessibleSubjects.map((s) => ({ label: s.name, value: s.id }))}
-            selectedOptionColorScheme="purple"
-            isClearable
-            variant="filled"
-            useBasicStyles
-          />
+          <Flex className="w-full lg:w-1/4">
+            <Select
+              value={filters.subjectId as SelectOption | undefined}
+              onChange={(val) => setFilters({ ...filters, subjectId: val })}
+              placeholder="Subject"
+              className="w-full"
+              options={accessibleSubjects.map((s) => ({ label: s.name, value: s.id }))}
+              selectedOptionColorScheme="purple"
+              isClearable
+              variant="filled"
+              useBasicStyles
+            />
+          </Flex>
+          <Flex className="w-full lg:w-1/4">
+            <Select
+              value={filters.status as SelectOption | undefined}
+              onChange={(val) => setFilters({ ...filters, status: val })}
+              placeholder="Status"
+              className="w-full"
+              options={statusFilterOptions as any}
+              isClearable
+              selectedOptionColorScheme="purple"
+              variant="filled"
+              useBasicStyles
+            />
+          </Flex>
         </Flex>
-        <Flex className="w-1/4">
-          <Select
-            value={filters.status as SelectOption | undefined}
-            onChange={(val) => setFilters({ ...filters, status: val })}
-            placeholder="Status"
-            className="w-full"
-            options={statusFilterOptions as any}
-            isClearable
-            selectedOptionColorScheme="purple"
-            variant="filled"
-            useBasicStyles
-          />
-        </Flex>
-      </Flex>
+      )}
       <TableContainer className="rounded-xl">
         <Table size={"lg"} bg={useColorModeValue("white", "gray.800")}>
           <Thead bg={useColorModeValue("white", "gray.700")} className="border-white">
@@ -198,6 +206,36 @@ const MyAssignmentsPage = () => {
         </Table>
       </TableContainer>
       <MyPagination show={true} itemCount={assignmentsCount} pagination={pagination} setPagination={setPagination} />
+
+      {!showFilters ? (
+        <Badge
+          colorScheme={"purple"}
+          rounded={"full"}
+          p={4}
+          className="w-fit absolute bottom-5 right-5 hover:opacity-80"
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          cursor={"pointer"}
+          onClick={() => setShowFilters(true)}
+        >
+          <LuFilter className="h-6 w-6" />
+        </Badge>
+      ) : (
+        <Badge
+          colorScheme={"red"}
+          rounded={"full"}
+          p={4}
+          className="w-fit absolute bottom-5 right-5 hover:opacity-80"
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          cursor={"pointer"}
+          onClick={() => setShowFilters(false)}
+        >
+          <LuFilterX className="h-6 w-6" />
+        </Badge>
+      )}
     </Flex>
   );
 };
