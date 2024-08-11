@@ -275,26 +275,28 @@ const EventDetailsPage = ({ params }: Props) => {
                             : `${p.student.firstName} ${p.student.lastName}`}
                         </Td>
                         <Td>
-                          <div className="flex justify-center">
-                            <Badge
-                              rounded={"full"}
-                              colorScheme="red"
-                              p={1}
-                              px={3}
-                              cursor={"pointer"}
-                              onClick={async () => {
-                                await StudentServices.leaveEvent(p.eventId);
-                                await getSingleEvent();
-                                toast({
-                                  title: "You have left from event",
-                                  colorScheme: "green",
-                                  isClosable: true,
-                                });
-                              }}
-                            >
-                              Leave
-                            </Badge>
-                          </div>
+                          {p.studentId === student?.id && (
+                            <div className="flex justify-center">
+                              <Badge
+                                rounded={"full"}
+                                colorScheme="red"
+                                p={1}
+                                px={3}
+                                cursor={"pointer"}
+                                onClick={async () => {
+                                  await StudentServices.leaveEvent(p.eventId);
+                                  await getSingleEvent();
+                                  toast({
+                                    title: "You have left from event",
+                                    colorScheme: "green",
+                                    isClosable: true,
+                                  });
+                                }}
+                              >
+                                Leave
+                              </Badge>
+                            </div>
+                          )}
                         </Td>
                       </Tr>
                     ))}

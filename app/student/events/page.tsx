@@ -10,6 +10,9 @@ import {
   Badge,
   Flex,
   Heading,
+  Input,
+  InputGroup,
+  InputLeftElement,
   Table,
   TableContainer,
   Tbody,
@@ -21,17 +24,27 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { Select } from "chakra-react-select";
 import { useAtom } from "jotai";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaSearch } from "react-icons/fa";
 import { FaPlay, FaRegClock } from "react-icons/fa6";
+import { LuFilter, LuFilterX } from "react-icons/lu";
 import { TbCalendarPlus, TbCalendarX } from "react-icons/tb";
+import { SelectOption } from "../assignments/page";
 
 const EventPage = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [eventCount, setEventCount] = useState<number>(0);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const [filters, setFilters] = useState({
+    search: "",
+    status: undefined as SelectOption | undefined | null,
+    registrationStatus: undefined as SelectOption | undefined | null,
+  });
 
   const router = useRouter();
   const colorFAFAFAGray900 = useColorModeValue("#fafafa", "gray.900");
@@ -42,10 +55,42 @@ const EventPage = () => {
     itemsPerPage: 5,
   });
 
+  const registeredFilterOptions = [
+    {
+      label: "Registered",
+      value: "registered",
+    },
+    {
+      label: "Unregistered",
+      value: "unregistered",
+    },
+  ];
+
+  const statusFilterOptions = [
+    {
+      label: "Upcoming",
+      value: "upcoming",
+    },
+    {
+      label: "Ongoing",
+      value: "ongoing",
+    },
+    {
+      label: "Complete",
+      value: "complete",
+    },
+  ];
+
   const getAllEvents = async () => {
     try {
+      const status = filters.status?.value;
+      const registrationStatus = filters.registrationStatus?.value;
+
       const res = await StudentServices.getAllEvents({
         ...pagination,
+        ...filters,
+        status,
+        registrationStatus,
       });
 
       if (res.data.status) {
@@ -223,10 +268,10 @@ const EventPage = () => {
 
   useEffect(() => {
     getAllEvents();
-  }, [pagination]);
+  }, [pagination, filters]);
 
   return (
-    <Flex direction={"column"} gap={"2"}>
+    <Flex direction={"column"} gap={"2"} className="relative h-[90vh]">
       <Flex
         className="h-24 w-full rounded-xl"
         justifyContent={"center"}
@@ -235,6 +280,49 @@ const EventPage = () => {
       >
         <Heading>Your Events</Heading>
       </Flex>
+      {showFilters && (
+        <Flex className="rounded-xl w-full gap-2 p-2" bg={"gray.700"} direction={{ base: "column", md: "row" }}>
+          <Flex className="w-full lg:w-1/2">
+            <InputGroup className="w-full">
+              <InputLeftElement pointerEvents="none">
+                <FaSearch color="gray.300" />
+              </InputLeftElement>
+              <Input
+                placeholder="Search"
+                variant="filled"
+                value={filters.search}
+                onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+              />
+            </InputGroup>
+          </Flex>
+          <Flex className="w-full lg:w-1/4">
+            <Select
+              value={filters.status as SelectOption | undefined}
+              onChange={(val) => setFilters({ ...filters, status: val })}
+              placeholder="Status"
+              className="w-full"
+              options={statusFilterOptions as any}
+              isClearable
+              selectedOptionColorScheme="purple"
+              variant="filled"
+              useBasicStyles
+            />
+          </Flex>
+          <Flex className="w-full lg:w-1/4">
+            <Select
+              value={filters.registrationStatus as SelectOption | undefined}
+              onChange={(val) => setFilters({ ...filters, registrationStatus: val })}
+              placeholder="Status"
+              className="w-full"
+              options={registeredFilterOptions as any}
+              isClearable
+              selectedOptionColorScheme="purple"
+              variant="filled"
+              useBasicStyles
+            />
+          </Flex>
+        </Flex>
+      )}
       <TableContainer className="rounded-xl">
         <Table size={"lg"} bg={useColorModeValue("white", "gray.800")}>
           <Thead bg={useColorModeValue("white", "gray.700")} className="border-white">
@@ -277,6 +365,36 @@ const EventPage = () => {
         </Table>
       </TableContainer>
       <MyPagination show={true} itemCount={eventCount} pagination={pagination} setPagination={setPagination} />
+
+      {!showFilters ? (
+        <Badge
+          colorScheme={"purple"}
+          rounded={"full"}
+          p={4}
+          className="w-fit absolute bottom-5 right-5 hover:opacity-80"
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          cursor={"pointer"}
+          onClick={() => setShowFilters(true)}
+        >
+          <LuFilter className="h-6 w-6" />
+        </Badge>
+      ) : (
+        <Badge
+          colorScheme={"red"}
+          rounded={"full"}
+          p={4}
+          className="w-fit absolute bottom-5 right-5 hover:opacity-80"
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          cursor={"pointer"}
+          onClick={() => setShowFilters(false)}
+        >
+          <LuFilterX className="h-6 w-6" />
+        </Badge>
+      )}
     </Flex>
   );
 };
