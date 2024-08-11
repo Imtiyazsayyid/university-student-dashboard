@@ -121,11 +121,7 @@ const MyAssignmentsPage = () => {
       </Flex>
 
       {showFilters && (
-        <Flex
-          className="rounded-xl w-full gap-2 p-2"
-          bg={useColorModeValue("white", "gray.700")}
-          direction={{ base: "column", md: "row" }}
-        >
+        <Flex className="rounded-xl w-full gap-2 p-2" bg={"gray.700"} direction={{ base: "column", md: "row" }}>
           <Flex className="w-full lg:w-1/2">
             <InputGroup className="w-full">
               <InputLeftElement pointerEvents="none">
