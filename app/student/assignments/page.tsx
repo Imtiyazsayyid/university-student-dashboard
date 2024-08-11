@@ -10,6 +10,9 @@ import {
   Badge,
   Flex,
   Heading,
+  Input,
+  InputGroup,
+  InputLeftElement,
   Table,
   TableContainer,
   Tbody,
@@ -23,46 +26,139 @@ import {
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
+import { Select } from "chakra-react-select";
+import { Subject } from "@/app/interfaces/SubjectInterface";
+
+export interface SelectOption {
+  label: string;
+  value: number | undefined | null;
+}
 
 const MyAssignmentsPage = () => {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [assignmentsCount, setAssignmentsCount] = useState(0);
+  const [accessibleSubjects, setAccessibleSubjects] = useState<Subject[]>([]);
 
   const router = useRouter();
   const colorFAFAFAGray900 = useColorModeValue("#fafafa", "gray.900");
-  
+
   const [pagination, setPagination] = useState({
     currentPage: 1,
     itemsPerPage: 7,
   });
 
+  const [filters, setFilters] = useState({
+    search: "",
+    subjectId: undefined as SelectOption | undefined | null,
+    status: undefined as SelectOption | undefined | null,
+  });
+
+  const statusFilterOptions = [
+    {
+      label: "Pending",
+      value: "pending",
+    },
+    {
+      label: "Complete",
+      value: "complete",
+    },
+    {
+      label: "Closed",
+      value: "closed",
+    },
+  ];
+
   const getAllAssignments = async () => {
     try {
-      const res = await StudentServices.getAllAssignments({ ...pagination, });
+      // Modify Select Options
+      const subjectId = filters.subjectId?.value;
+      const status = filters.status?.value;
+
+      const res = await StudentServices.getAllAssignments({ ...pagination, ...filters, subjectId, status });
 
       if (res.data.status) {
         setAssignments(res.data.data.assignments);
         setAssignmentsCount(res.data.data.assignmentCount);
-
       }
     } catch (error) {
       console.error("Error in Get All Assigments", error);
     }
   };
 
+  const getAllAccessibleSubjects = async () => {
+    try {
+      const res = await StudentServices.getAccessibleSubjects();
+
+      if (res.data.status) {
+        setAccessibleSubjects(res.data.data);
+      }
+    } catch (error) {
+      console.error("Error in getAllAccessibleSubjects", error);
+    }
+  };
+
+  useEffect(() => {
+    getAllAccessibleSubjects();
+  }, []);
+
   useEffect(() => {
     getAllAssignments();
-  }, [pagination]);
+  }, [pagination, filters]);
 
   return (
     <Flex direction={"column"} gap={"2"}>
       <Flex
-        className="h-24 w-full rounded-xl"
+        className="h-fit w-full rounded-xl p-7 gap-4"
+        direction={"column"}
         justifyContent={"center"}
         alignItems={"center"}
         bg={useColorModeValue("white", "gray.700")}
       >
         <Heading>Your Assignments</Heading>
+      </Flex>
+
+      <Flex className="rounded-xl w-full gap-4 p-2" bg={useColorModeValue("white", "gray.700")}>
+        <Flex className="w-1/2">
+          <InputGroup className="w-full">
+            <InputLeftElement pointerEvents="none">
+              <FaSearch color="gray.300" />
+            </InputLeftElement>
+            <Input
+              placeholder="Search"
+              variant="filled"
+              value={filters.search}
+              onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+            />
+          </InputGroup>
+        </Flex>
+
+        <Flex className="w-1/4">
+          <Select
+            value={filters.subjectId as SelectOption | undefined}
+            onChange={(val) => setFilters({ ...filters, subjectId: val })}
+            placeholder="Subject"
+            className="w-full"
+            options={accessibleSubjects.map((s) => ({ label: s.name, value: s.id }))}
+            selectedOptionColorScheme="purple"
+            isClearable
+            variant="filled"
+            useBasicStyles
+          />
+        </Flex>
+        <Flex className="w-1/4">
+          <Select
+            value={filters.status as SelectOption | undefined}
+            onChange={(val) => setFilters({ ...filters, status: val })}
+            placeholder="Status"
+            className="w-full"
+            options={statusFilterOptions as any}
+            isClearable
+            selectedOptionColorScheme="purple"
+            variant="filled"
+            useBasicStyles
+          />
+        </Flex>
       </Flex>
       <TableContainer className="rounded-xl">
         <Table size={"lg"} bg={useColorModeValue("white", "gray.800")}>

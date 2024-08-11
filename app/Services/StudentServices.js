@@ -26,6 +26,10 @@ const StudentServices = {
     return await Api().get("/subject/" + id);
   },
 
+  async getAccessibleSubjects() {
+    return await Api().get("/accessible-subjects");
+  },
+
   // Unit
   async getSingleUnit(id) {
     return await Api().get("/unit/" + id);
