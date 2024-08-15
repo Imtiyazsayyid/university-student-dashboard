@@ -47,7 +47,7 @@ const MyAssignmentsPage = () => {
 
   const [pagination, setPagination] = useState({
     currentPage: 1,
-    itemsPerPage: 7,
+    itemsPerPage: 5,
   });
 
   const [filters, setFilters] = useState({
