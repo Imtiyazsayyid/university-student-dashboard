@@ -26,7 +26,7 @@ export default function RootLayout({
           <Provider>{children}</Provider>
         </Providers>
         <ActiveStatus />
-        <Providers>{children}</Providers>
+        {/* <Providers>{children}</Providers> */}
       </body>
     </html>
   );
