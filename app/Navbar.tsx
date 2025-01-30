@@ -32,10 +32,12 @@ import StudentServices from "./Services/StudentServices";
 import { TokenService } from "./Services/StorageService";
 import { IoLibrary } from "react-icons/io5";
 import { MdAssignment } from "react-icons/md";
-import { LuTicket } from "react-icons/lu";
-import { BsTicketPerforatedFill } from "react-icons/bs";
+import { LuTicket, LuUsers } from "react-icons/lu";
+import { BsChatSquareText, BsTicketPerforatedFill } from "react-icons/bs";
 import { useAtom, useStore } from "jotai";
 import { setStudentDetails, studentDetails } from "./store/Store";
+import { MessageCircle } from "lucide-react";
+import { BiSolidConversation } from "react-icons/bi";
 
 interface LinkItemProps {
   name: string;
@@ -62,6 +64,9 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Subjects", icon: IoLibrary, route: "/student/subjects", key: "subjects" },
   { name: "Assignments", icon: MdAssignment, route: "/student/assignments", key: "assignments" },
   { name: "Events", icon: BsTicketPerforatedFill, route: "/student/events", key: "events" },
+  {name: "Chats", icon: BsChatSquareText, route: "/student/chats", key: "chats"},
+  {name: "Students", icon: LuUsers, route: "/student/chats", key: "students"},
+  {name: "Conversations", icon: BiSolidConversation, route: '/student/conversations', key: "conversations"},
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
@@ -256,7 +261,7 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     store.set(setStudentDetails);
-  }, []);
+  }, [store]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 

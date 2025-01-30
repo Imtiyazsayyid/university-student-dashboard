@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./Provider";
 import { Provider } from "jotai";
+import ActiveStatus from "./student/chats/components/ActiveStatus";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,10 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Provider>
-            {children}
-          </Provider>
+          <Provider>{children}</Provider>
         </Providers>
+        <ActiveStatus />
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
