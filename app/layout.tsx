@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./Provider";
+import ActiveStatus from "./student/chats/components/ActiveStatus";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ActiveStatus />
         <Providers>{children}</Providers>
       </body>
     </html>

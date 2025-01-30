@@ -1,4 +1,5 @@
 import { Batch } from "./BatchInterface";
+import { StudentConversation, StudentMessage } from "./ChatInterface";
 import { Course } from "./CourseInterface";
 import { CourseStudentDocuments } from "./CourseStudentDocumentInterface";
 import { Division } from "./DivisionInterface";
@@ -20,6 +21,10 @@ export type Student = {
   status: boolean;
   created_at: Date;
   updated_at: Date;
+
+  conversations: StudentConversation[]; 
+  seenMessages: StudentMessage[]; 
+  messages: StudentMessage[];
 
   batch: Batch;
   course: Course;

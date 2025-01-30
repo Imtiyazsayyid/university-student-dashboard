@@ -79,6 +79,41 @@ const StudentServices = {
   async leaveEvent(eventId) {
     return await Api().delete(`/leave-event/${eventId}`);
   },
+
+  // chats
+async getStudentsList(params) {
+  return await Api().get("/chats", { params });
+},
+
+async createStudentConversation(payload) {
+  return await Api().post("/conversations", payload);
+},
+
+async deleteStudentConversation(conversationId) {
+  return await Api().delete(`/conversations/${conversationId}`);
+},
+
+async updateLastSeenOfStudentMessage(conversationId) {
+  return await Api().patch(`/conversations/${conversationId}/seen`);
+},
+
+async getStudentConversations(params) {
+  return await Api().get("/conversations", { params });
+},
+
+async getStudentMessages(conversationId) {
+  return await Api().get(`/conversations/${conversationId}/messages`);
+},
+
+async getStudentConversationById(conversationId) {
+  return await Api().get(`/conversations/${conversationId}`);
+},
+async createStudentMessage(conversationId, payload) {
+  return await Api().post(
+    `/conversations/${conversationId}/message`,
+    payload
+  );
+},
 };
 
 export default StudentServices;
