@@ -61,12 +61,12 @@ interface SidebarProps extends BoxProps {
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, route: "/student", key: "admin" },
-  { name: "Subjects", icon: IoLibrary, route: "/student/subjects", key: "subjects" },
+  // { name: "Subjects", icon: IoLibrary, route: "/student/subjects", key: "subjects" },
   { name: "Assignments", icon: MdAssignment, route: "/student/assignments", key: "assignments" },
   { name: "Events", icon: BsTicketPerforatedFill, route: "/student/events", key: "events" },
-  {name: "Chats", icon: BsChatSquareText, route: "/student/chats", key: "chats"},
-  {name: "Students", icon: LuUsers, route: "/student/chats", key: "students"},
-  {name: "Conversations", icon: BiSolidConversation, route: '/student/conversations', key: "conversations"},
+  // {name: "Chats", icon: BsChatSquareText, route: "/student/chats", key: "chats"},
+  { name: "Students", icon: LuUsers, route: "/student/chats", key: "students" },
+  { name: "Conversations", icon: BiSolidConversation, route: "/student/conversations", key: "conversations" },
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
