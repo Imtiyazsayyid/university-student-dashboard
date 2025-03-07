@@ -103,7 +103,7 @@ const SingleUnitPage = ({ params }: Props) => {
   const colorGray100Gray800 = useColorModeValue("gray.100", "gray.800");
   const colorBlackWhite = useColorModeValue("black", "white");
 
-  if (!unit) return;
+  if (!unit || unit.unitMaterial.length <= 0) return;
 
   return (
     <Flex direction={"column"} gap={"2"}>
@@ -167,37 +167,39 @@ const SingleUnitPage = ({ params }: Props) => {
       <Heading size={"lg"} textAlign={"center"} mb={"4"}>
         Unit Materials
       </Heading>
-      <Grid
-        bg={colorGray100Gray800}
-        width={"full"}
-        padding={2}
-        rounded={"lg"}
-        gap={2}
-        gridTemplateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
-      >
-        {unit.unitMaterial.map((um, index) => (
-          <GridItem key={um.id}>
-            <Card
-              rounded={"lg"}
-              shadow={"md"}
-              bg={currentMaterialNumber === index ? "purple.700" : colorWhiteGray700}
-              color={currentMaterialNumber === index ? "white" : colorBlackWhite}
-              cursor={"pointer"}
-              onClick={() => setCurrentMaterialNumber(index)}
-            >
-              <CardBody>
-                <Flex justifyContent={"space-between"} alignItems={"center"}>
-                  <Box>
-                    <Heading size={"1"}>
-                      {index + 1}. {um.name}
-                    </Heading>
-                  </Box>
-                </Flex>
-              </CardBody>
-            </Card>
-          </GridItem>
-        ))}
-      </Grid>
+      {unit.unitMaterial.length > 0 && (
+        <Grid
+          bg={colorGray100Gray800}
+          width={"full"}
+          padding={2}
+          rounded={"lg"}
+          gap={2}
+          gridTemplateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
+        >
+          {unit.unitMaterial.map((um, index) => (
+            <GridItem key={um.id}>
+              <Card
+                rounded={"lg"}
+                shadow={"md"}
+                bg={currentMaterialNumber === index ? "purple.700" : colorWhiteGray700}
+                color={currentMaterialNumber === index ? "white" : colorBlackWhite}
+                cursor={"pointer"}
+                onClick={() => setCurrentMaterialNumber(index)}
+              >
+                <CardBody>
+                  <Flex justifyContent={"space-between"} alignItems={"center"}>
+                    <Box>
+                      <Heading size={"1"}>
+                        {index + 1}. {um.name}
+                      </Heading>
+                    </Box>
+                  </Flex>
+                </CardBody>
+              </Card>
+            </GridItem>
+          ))}
+        </Grid>
+      )}
 
       <Box className="h-20"></Box>
     </Flex>
