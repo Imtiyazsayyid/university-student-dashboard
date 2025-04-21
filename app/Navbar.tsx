@@ -65,8 +65,8 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Assignments", icon: MdAssignment, route: "/student/assignments", key: "assignments" },
   { name: "Events", icon: BsTicketPerforatedFill, route: "/student/events", key: "events" },
   // {name: "Chats", icon: BsChatSquareText, route: "/student/chats", key: "chats"},
-  // { name: "Students", icon: LuUsers, route: "/student/chats", key: "students" },
-  // { name: "Conversations", icon: BiSolidConversation, route: "/student/conversations", key: "conversations" },
+  { name: "Students", icon: LuUsers, route: "/student/chats", key: "students" },
+  { name: "Conversations", icon: BiSolidConversation, route: "/student/conversations", key: "conversations" },
 ];
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
@@ -244,7 +244,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             >
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
+              {/* <MenuItem>Billing</MenuItem> */}
               <MenuDivider />
               <MenuItem onClick={signOut}>Sign out</MenuItem>
             </MenuList>
