@@ -11,10 +11,12 @@ import { FaUserGraduate } from "react-icons/fa6";
 // import { Input } from "@/components/ui/input";
 // import { Label } from "@/components/ui/label";
 
-import { Button } from "@chakra-ui/react";
+import { Button, useToast } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react";
+import { AlertCircleIcon } from "lucide-react";
 
 const LoginPage = () => {
+  const toast = useToast();
   const [userDetails, setUserDetails] = useState({
     email: "",
     password: "",
@@ -54,7 +56,9 @@ const LoginPage = () => {
     if (res.data.status) {
       const refreshToken = res.data.data;
 
-      const accessTokenResponse = await StudentServices.getAccessToken(refreshToken);
+      const accessTokenResponse = await StudentServices.getAccessToken(
+        refreshToken
+      );
 
       if (!accessTokenResponse.data.status) {
         throw new Error("status false in getting Access Token");
@@ -62,6 +66,14 @@ const LoginPage = () => {
       TokenService.saveAccessToken(accessTokenResponse.data.data);
       router.push("/student");
     } else {
+      toast({
+        title: "Uh oh! Something went wrong",
+        description: "Invalid credentials provided.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
       setErrors({
         email: "",
         password: "",
@@ -85,8 +97,12 @@ const LoginPage = () => {
               <FaUserGraduate size={50} />
             </div>
             <div className="flex flex-col space-y-2 text-center">
-              <h1 className="text-2xl font-semibold tracking-tight">Welcome Back</h1>
-              <p className="text-sm text-muted-foreground">Enter your email and password to continue.</p>
+              <h1 className="text-2xl font-semibold tracking-tight">
+                Welcome Back
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                Enter your email and password to continue.
+              </p>
             </div>
             <div>
               <div className="grid gap-2">
@@ -99,7 +115,9 @@ const LoginPage = () => {
                     autoCapitalize="none"
                     autoComplete="email"
                     autoCorrect="off"
-                    onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
+                    onChange={(e) =>
+                      setUserDetails({ ...userDetails, email: e.target.value })
+                    }
                   />
                 </div>
                 <div className="grid gap-1">
@@ -110,7 +128,12 @@ const LoginPage = () => {
                     type="password"
                     autoCapitalize="none"
                     autoCorrect="off"
-                    onChange={(e) => setUserDetails({ ...userDetails, password: e.target.value })}
+                    onChange={(e) =>
+                      setUserDetails({
+                        ...userDetails,
+                        password: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <Button onClick={handleSubmit} colorScheme="purple">
